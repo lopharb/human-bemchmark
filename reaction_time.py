@@ -18,6 +18,7 @@ def on_press(key):
 def has_color(img, target_color=(75, 219, 106)):
     width, height = img.size
     return img.getpixel((width//3, height//2)) == target_color
+    # probably a bad solution, but should work most of the time
 
 
 def main():
@@ -30,11 +31,14 @@ def main():
     while True:
         if state:
             cur_time = time.time()
+            # a 20 ms delay between screenshots so we don't click the same image twice
             if cur_time - start_time > 0.02:
                 img = ImageGrab.grab()
                 start_time = cur_time
                 if has_color(img=img, target_color=GREEN):
-                    mouse.click(Button.left, 2)
+                    mouse.click(Button.left, 1)
+                    time.sleep(0.1)
+                    mouse.click(Button.left, 1)
 
 
 if __name__ == "__main__":
